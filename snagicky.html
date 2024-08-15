@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snagicky</title>
+    <script src="snagicky.js"></script>
+    <link rel="stylesheet" href="snagicky.css">
+
+</head>
+<body>
+    <div class="admin">
+        <input type="password" class="apiKey" id="api-text-input" placeholder="ApiKey">
+        <button style="background-color: red;" onclick="DeleteCard()">Vymazat</button>
+        <button style="background-color: greenyellow;" onclick="CardCreation()">Vytvořit</button>
+        <input type="checkbox" onclick="adminPowers()" id="admin-powers-checkbox" style="margin: 0 0 0 2ch;">
+        
+        <br>
+        <input type="text" class="apiKey" id="admin-note" placeholder="Poznamka" style="width: 40%;">
+
+        <select class="search-card-type-select" name="Typ" id="admin-background" style="width: 40%;text-align: center;">
+            <option value="0">Pozadí</option>
+            <option value="1">Oheň</option>
+            <option value="2">Voda</option>
+            <option value="3">Vzduch</option>
+            <option value="4">Zem</option>
+            <option value="5">něco???</option>
+        </select>
+        <button onclick="NewCards()">#</button>
+    </div>
+    <div class="admin2" id="admin-control-pannel">
+        <input type="text" placeholder="Edice" style="width: 10ch;" id="admin-creating-edition">
+        <button onclick="deleteEdition()">Vymazat</button>
+        <button onclick=" connectEdition()">Připojit</button>
+        <button onclick="createEdition()">Vytvořit</button>
+       ||---|| 
+        <input type="text" placeholder="Vlastnost" style="width: 8ch;" id="admin-create-passive">
+        <input type="text" placeholder="Popis" style="width: 10ch;" id="admin-create-passive-des">
+        <button>Vymazat</button>
+        <button onclick="createPassive()">Vytvořit</button>
+       ||---|| 
+        <input type="text" placeholder="Typ" style="width: 10ch;" id="admin-create-new-type">
+        <select style="width: 3ch;" id="admin-create-new-type-type">
+                        <option value="1">Bytost</option>
+                        <option value="2">Krystal</option>
+                        <option value="3">Vozidlo</option>
+                        <option value="0">Ostatní</option>
+        </select>
+        <button>Vymazat</button>
+        <button onclick="createType()">Vytvořit</button>
+    </div>
+    
+    <div class="card-panel" id="card-panel" onscroll="checkIfScrollBottom(this)"></div>
+    <div class="control-panel">
+        <div class="card" style="height: 600px;">
+            <div class="card-background">
+                <div class="search-card-id">
+                    <input type="text" class="search-card-name" id="search-card-name" placeholder="Jméno karty">
+                    
+                    <div>
+                        <input class="search-total-cost" id="search-total-cost" type="number" min="0" max="9" title="Celková hodnota karty">
+                        <button class="search-cost-button" id="search-total-toggle">=</button>
+                    </div>
+                    <div>
+                        <input class="search-multi-cost" id="search-multi-cost" type="number" min="0" max="9">
+                        <button class="search-cost-button" id="search-multi-toggle">=</button>
+
+                        <input class="search-red-cost" id="search-red-cost" type="number" min="0" max="9">
+                        <button class="search-cost-button" id="search-red-toggle">=</button>
+                        
+                        <input class="search-white-cost" id="search-white-cost" type="number" min="0" max="9">
+                        <button class="search-cost-button" id="search-white-toggle">=</button>
+
+                        <input class="search-blue-cost" id="search-blue-cost" type="number" min="0" max="9">
+                        <button class="search-cost-button" id="search-blue-toggle">=</button>
+
+                        <input class="search-green-cost" id="search-green-cost" type="number" min="0" max="9">
+                        <button class="search-cost-button" id="search-green-toggle">=</button>
+                    </div>
+                </div>
+
+                <div class="card-picture" style="height: 35%;"></div>
+
+                <div class="card-type">
+                    <select class="search-card-type-select" name="SubTyp" id="search-sub-type" onchange="GetTypeSearch()" style="width: 7%;">
+                        <option value="-1">Pod Typ</option>
+                        <option value="1">Bytost</option>
+                        <option value="2">Krystal</option>
+                        <option value="3">Vozidlo</option>
+                        <option value="0">Ostatní</option>
+                    </select>
+                    <select class="search-card-type-select" name="Typ" id="search-type" style="width: 30%;">
+                        <option value="null">Typ</option>
+                        <option value="">test</option>
+                        <option value="">test 2</option>
+                    </select>
+                    <input type="text" class="search-card-type-name" placeholder="Jméno typu" id="search-type-text" onchange="GetTypeSearch()">
+                    <input class="search-card-id-number" id="ID" type="number" min="0" placeholder="ID">
+                </div>
+                <div class="search-passives" id="search-passives-selector"><p>Passive <input type="checkbox"></p></div>
+
+                <div class="search-card-text">
+                    <input type="text" class="power" id="search-description" placeholder="Text co by se mohl vyskytovat na kartě">
+                    <input type="text" class="story" id="search-description-story" placeholder="Příběh">
+                </div>
+
+                <div class="search-information">
+                    <input type="text" class="search-card-type-name" id="search-rarity" placeholder="x" style="width: 5%;text-align: center;">
+                    <input type="text" class="search-card-type-name" id="search-creator" placeholder="Tvůrce" style="width: 15%;text-align: center;margin: 0 1ch;">
+                    <input type="text" class="search-card-type-name" id="search-edition-text" placeholder="Jméno edice" style="width: 25%;text-align: center;" onchange="GetEditionSearch()"></input>
+                    <select class="search-card-edition" name="edition" id="search-edition" style="width: 15ch;">
+                        <option value="null">Edice</option>
+                        <option value="">test</option>
+                        <option value="">test 2</option>
+                    </select>
+                    <div style="width: 20%; display: flex;justify-content: space-evenly;">
+                        <input type="text" class="search-card-attack-deffense" id="att-deff" maxlength="3" placeholder="x/x">
+                        <button class="search-cost-button" id="search-att-deff-toggle">=</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <button style="background-color: orangered;" onclick="restartSearchCard();">#</button>
+            <button onclick="searchReq()" style="background-color: greenyellow;">Vyhledat</button>
+        </div>
+    </div>
+</body>
+</html>

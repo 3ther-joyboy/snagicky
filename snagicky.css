@@ -1,0 +1,293 @@
+:root {
+    --background: #333355;
+    --background2: #444466;
+    --color: white;
+
+    --card-background: white;
+    --card-text: black;
+    --card-background-text: #ffffff50;
+}
+* {
+    margin: 0;
+}
+body {
+    background-color: var(--background);
+    color: var(--color);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    height: 100vh;
+}
+body .card-panel {
+    background-color: var(--background2);
+    display: flex;
+    flex-direction: row;
+    height: 80vh;
+    width: 70vw;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+
+
+.card-background,.card-id,.card-information,.card-picture,.card-text,.card-type,.search-card-id, .search-card-text{
+    width: 90%;
+}
+
+.card {
+    /*
+        ratio height -> font size is 100/8
+    
+    */
+    aspect-ratio: 63 / 88;
+    height: 8.8cm;
+    margin: 10px 0;
+
+    font-size: 23px;
+
+    display: flex;
+    align-items: center;
+    background-color: var(--card-background);
+    color: var(--card-text);
+    font-family: Arial;
+
+}
+.card .card-background {
+    margin: auto;
+    background-color: #aaa;
+    border-radius: 1ch;
+    height: 97%;
+    width: 95%;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.card .card-background .card-picture{
+    background-color: var(--card-background);
+    border-radius: 1ch;
+    border: black 0.2ch solid;
+    height: 45%;
+}
+.card-id{
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.card .card-background .card-type{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+.card .card-background .card-id, .card .card-background .card-type{
+    font-size: 60%;
+    padding: 2.5% 0;
+}
+.card .card-background .card-id .card-cost {
+    display: flex;
+}
+.red-cost,.white-cost,.blue-cost,.green-cost,.multi-cost{
+    margin: 0.1ch;
+    border: 0.3ch solid black;
+    width: 1.5ch;
+    height: 1.5ch;
+    border-radius: 100%;
+    text-align: center;
+    font-weight: lighter;
+}
+.multi-cost{
+    background-color: var(--card-background-text);
+}
+.card-text p {
+    text-align: center;
+}
+.card-text, .search-card-text{
+    background-color: var(--card-background-text);
+    border-radius: 1ch;
+    border: black 0.2ch solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 25%;
+    justify-content: space-between;
+}
+.search-card-text .power{
+    height: 70%;
+}
+.search-card-text .story{
+    height: 30%;
+}
+
+.search-card-text .power, .search-card-text .story{
+    background-color: #00000000;
+    border: none;
+    width: 100%;
+    text-align: center;
+}
+
+.card .card-background .card-text .passives-text{
+    width: 90%;
+    text-align: center;
+    font-size: 50%;
+    font-weight: bold;
+}
+.card .card-background .card-text .card-description{
+    font-size: 60%;
+}
+.card .card-background .card-text .card-story{
+    font-size: 30%;
+    text-align: center;
+    font-style: italic;
+    width: 90%;
+}
+.card .card-background .card-information{
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.card .card-background .card-information .card-edition-text{
+    font-size: 35%;
+}
+.card .card-background .card-information .card-attack-deffense{
+    font-weight: bold;
+}
+
+
+
+.control-panel{
+    width: 30vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.search-card-id{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.search-card-name{
+    font-size: 20px;
+    width: 100%;
+    background-color: #00000000;
+    border: none;
+    border-bottom: 2px dotted black;
+    margin-top: 20px;
+}
+.search-card-name:focus,.search-card-id-number:focus,.search-card-type-name:focus,.search-card-attack-deffense:focus{
+    outline: none;
+    border-bottom: 2px solid black;
+}
+
+.search-total-cost,.search-multi-cost,.search-red-cost,.search-blue-cost,.search-green-cost,.search-white-cost{
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+
+    -moz-appearance: textfield;
+    -webkit-appearance: none; 
+    appearance: textfield;
+    text-align: center;
+
+    border: none;
+    background-color: var(--card-background-text);
+}
+.search-card-text:focus, .search-card-attack-deffense:focus,.search-card-type-name:focus,.search-card-id-number:focus,.search-total-cost:focus,.search-multi-cost:focus,.search-red-cost:focus,.search-blue-cost:focus,.search-green-cost:focus,.search-white-cost:focus,.power:focus,.story:focus{
+    outline: none;
+}
+.search-red-cost,.red-cost{background-color: #ff0000;}
+.search-white-cost,.white-cost{background-color: #ffffff;}
+.search-green-cost,.green-cost{background-color: #00ff00;}
+.search-blue-cost,.blue-cost{background-color: #4444ff;color: white;}
+.search-cost-button{
+    background-color: #00000000;
+    border: none;
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+}
+.search-card-text {
+    text-align: center;
+}
+.search-card-type-name{
+    background-color: #00000000;
+    border: none;
+    border-bottom: black dotted 2px;
+}
+.search-card-id-number{
+    background-color: #00000000;
+    border: none;
+    border-bottom: black dotted 2px;
+    width: 20px;
+
+    -moz-appearance: textfield;
+    -webkit-appearance: none; 
+    appearance: textfield;
+    text-align: center;
+}
+.search-information{
+    width: 90%;
+    margin-top: 10px;
+    height: 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.search-card-attack-deffense{
+    width: 50%;
+    background-color: #00000000;
+    border: none;
+    border-bottom: black dotted 2px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+.admin{
+    position: fixed;   
+    top: 0;
+    left: 0;
+    background-color: var(--background2);
+    padding: 0 2ch 1ch 0;
+    border-bottom-right-radius: 2ch;
+
+}
+.admin2{
+    position: fixed;   
+    top: 0;
+    right:0;
+    width: 50vw;
+    background-color: var(--background2);
+    padding: 0 2ch 1ch 0;
+    border-bottom-left-radius: 2ch;
+    visibility:inherit;
+    padding: 1ch;
+    display: none;
+    align-items: center;
+    justify-content: space-around;
+}
+.apiKey{
+    margin: 5px;
+    width: 40%;
+}
+.search-passives{
+    width: 90%;
+    font-size: 70%;
+    font-weight: normal;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.search-passives p{
+    margin: 0 5px;
+    font-size: 1.2ch;
+}
