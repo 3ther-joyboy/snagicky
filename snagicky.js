@@ -38,7 +38,6 @@ let card = {
     story: "search-description-story",
 
     attdeff: "att-deff",
-    attdeff_toggle: "search-att-deff-toggle",
     edition: "search-edition",
     edition_text: "search-edition-text",
     creater: "search-creator",
@@ -59,10 +58,15 @@ function restartSearchCard(){
         card.rarity,card.creater,card.edition_text,card.story
     ];
     const equal = [
-        card.total_toggle,card.multi_toggle,card.red_toggle,card.blue_toggle,card.white_toggle,card.green_toggle,card.attdeff_toggle
+        card.total_toggle,card.multi_toggle,card.red_toggle,card.blue_toggle,card.white_toggle,card.green_toggle
     ];
-for (let i = 0; i < equal.length; i++)
-        document.getElementById(equal[i]).value = "=";
+
+for (let i = 0; i < equal.length; i++){
+        document.getElementById(equal[i]).value = "0";
+        document.getElementById(equal[i]).innerHTML = "=";
+  }
+for (let i = 0; i < card.passivesArr.length; i++)
+  document.getElementById(card.passivesArr[i]).checked = false;
 for (let i = 0; i < clear.length; i++)
         document.getElementById(clear[i]).value = null;
 }
@@ -110,6 +114,7 @@ async function createPassive(){
     try {
             const response = await fetch(req,{method: "Post"});
     if (!response.ok) {
+      GetPassives();
       throw new Error(`Response status: ${response.status}`);
     }
     } catch (error) {
@@ -118,6 +123,35 @@ async function createPassive(){
 
 }}
 
+async function deleteType(){
+    if(confirm("Chceš tento typ?")){
+    const req = databaseUrl + "/type/delete/" + document.getElementById(card.type).value +"/" + document.getElementById(admin.apiKey).value;
+    try {
+            const response = await fetch(req,{method: "Delete"});
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    } catch (error) {
+        console.error(error.message);
+    }
+
+}}
+
+async function deletePassive(){
+  const pass = passivesTable();
+    if( pass.length == 1 && confirm("Chceš smazat tuto vlastnost?")){
+    const req = databaseUrl + "/passive/delete/" + pass[0] +"/" + document.getElementById(admin.apiKey).value;
+    try {
+            const response = await fetch(req,{method: "Delete"});
+    if (!response.ok) {
+      GetPassives();
+      throw new Error(`Response status: ${response.status}`);
+    }
+    } catch (error) {
+        console.error(error.message);
+    }
+
+}}
 
 function adminPowers(){
   var checkBox = document.getElementById(admin.admin_power_checkbox);
@@ -162,7 +196,8 @@ function adminPowers(){
 */
 
 function addCard(id,name,type,rarity,creator,edition,description,story,att_deff_type,attack,defense,multi,white,green,blue,red,cost,background,passives){
-    let card = '<div class="card"><div class="card-background"><div class="card-id"><p class="card-name">';
+    let card = '<div class="card"><div class="card-background"><div class="card-id"'
+    card += ((att_deff_type == 2)?'style="justify-content: flex-start;" ':'') + '><p class="card-name">';
     card += name + '</p><div class="card-cost">';
 
     let stringCost = '' + cost;
@@ -179,7 +214,7 @@ function addCard(id,name,type,rarity,creator,edition,description,story,att_deff_
                 card += '<div class="' + mana_html[i] + '-cost">' + ((mana_cost[i]*1 == 1)?(''):(mana_cost[i] + '')) + '</div>';
             }
         }
-        if(mana_total_cost == 0)
+        if(mana_total_cost == 0 && att_deff_type != 2)
             card += '<div class="multi-cost">0</div>';
     }
 
@@ -198,7 +233,8 @@ function addCard(id,name,type,rarity,creator,edition,description,story,att_deff_
     switch (att_deff_type){
         case 0: card += '>';break;
         case 1: card += '>' + attack + '/' + defense;break;
-        case 2: card += ' style="color: white;">' + attack + '/' + defense;break;
+        case 2: card += '>';break;
+        case 3: card += ' style="color: white;">' + attack + '/' + defense;break;
         default: card += '>x/x'
     }
     card += '</p></div></div></div>';
@@ -217,13 +253,31 @@ async function GetCards(){
         ["story",document.getElementById(card.story).value],
         ["creator",document.getElementById(card.creater).value],
 
+        ["total",document.getElementById(card.total_cost).value],
         ["multi",document.getElementById(card.multi_cost).value],
         ["white",document.getElementById(card.white_cost).value],
         ["blue",document.getElementById(card.blue_cost).value],
         ["red",document.getElementById(card.red_cost).value],
-        ["green",document.getElementById(card.green_cost).value]
+        ["green",document.getElementById(card.green_cost).value],
+
+        ["totalToggle",document.getElementById(card.total_toggle).value],
+        ["multiToggle",document.getElementById(card.multi_toggle).value],
+        ["whiteToggle",document.getElementById(card.white_toggle).value],
+        ["blueToggle",document.getElementById(card.blue_toggle).value],
+        ["redToggle",document.getElementById(card.red_toggle).value],
+        ["greenToggle",document.getElementById(card.green_toggle).value]
     ]
     const params = new URLSearchParams();
+// attack / deff
+const attDeff = document.getElementById(card.attdeff).value;
+    if(attDeff[1] == "/"){
+      params.set("attack",Number(attDeff[0]));
+      params.set("defense",Number(attDeff[2]));
+    }else if(attDeff.length > 0){
+      params.set("att-def",Number(attDeff))
+    }
+
+
 
     for(let i = 0;i < parm.length;i++){
         if(parm[i][1].length > 0 && parm[i][1] != "null")
@@ -354,7 +408,7 @@ function OnLoad(){
     adminPowers();
 }
 
-function passivesTable(){                       // alůksdfůlkasjdflůkjasůdlfja
+function passivesTable(){
   let passivesArray = [];
   for (let i = 0;i < card.passivesArr.length;i++){
     const box = document.getElementById(card.passivesArr[i]);
@@ -542,5 +596,17 @@ function searchReq(){
   GetCards();
 }
 
+function valueSwitch(that){
+  if(that.innerHTML == "="){
+    that.innerHTML = '&#8806'
+    that.value = 1;
+  }else if(that.innerHTML == "≦"){
+    that.innerHTML = '>'
+    that.value = -1;
+  }else{
+    that.innerHTML = '='
+    that.value = 0;
+  }
+}
 
 window.onload = OnLoad;
