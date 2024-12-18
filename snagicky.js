@@ -1,4 +1,4 @@
-const databaseUrl = "http://localhost:8080";
+const databaseUrl = "http://http://85.160.78.11:8080";
 const panel = "card-panel";
 let scroll = [0,25];
 const admin = {
