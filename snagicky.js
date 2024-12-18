@@ -1,4 +1,4 @@
-let databaseUrl = "http//85.160.78.11:8080";
+let databaseUrl = "http://85.160.78.11:8080";
 // its a let just cus i wana try live reload the ip addres
 const panel = "card-panel";
 let scroll = [0,25];
